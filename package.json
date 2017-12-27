@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "bootstrap": "4.0.0-beta.2",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.9",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cli": "^2.0.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.2",
+    "webpack": "^3.10.0",
+    "webpack-stream": "^4.0.0"
+  },
+  "scripts": {
+    "sass": "gulp sass",
+    "sass:watch": "gulp sass:watch"
+  }
+}

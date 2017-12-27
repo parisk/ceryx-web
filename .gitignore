@@ -1,0 +1,16 @@
+# Byte-compiled files
+__pycache__/
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# dotenv
+.env
+
+# Node stuff
+node_modules/
+npm-debug.log
+
+# Static artifacts
+static/dist/
