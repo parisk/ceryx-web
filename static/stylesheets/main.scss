@@ -1,1 +1,43 @@
 @import '../../node_modules/bootstrap/scss/bootstrap';
+
+.route-list-group {
+  .route-container {
+    .list-group-item {
+      .delete-route {
+        background: none;
+        border: 1px solid transparent;
+        border-radius: 3px;
+        color: #666;
+      }
+
+      .delete-route:hover {
+        border: 1px solid #dfdfdf;
+      }
+
+      .delete-route:focus {
+        outline: none;
+      }
+
+      .route-target {
+        color: #666;
+        margin-left: 16px;
+      }
+
+      .route-target::before {
+        content: "(";
+      }
+
+      .route-target::after {
+        content: ")";
+      }
+    }
+
+    .list-group-item:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+button {
+  cursor: pointer;
+}

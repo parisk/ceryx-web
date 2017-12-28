@@ -7,6 +7,10 @@
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.36",
+    "@babel/preset-env": "^7.0.0-beta.36",
+    "@babel/preset-react": "^7.0.0-beta.36",
+    "babel-loader": "8.0.0-beta.0",
     "gulp": "^3.9.1",
     "gulp-cli": "^2.0.0",
     "gulp-sass": "^3.1.0",
@@ -16,6 +20,8 @@
   },
   "scripts": {
     "sass": "gulp sass",
-    "sass:watch": "gulp sass:watch"
+    "sass:watch": "gulp sass:watch",
+    "webpack": "gulp webpack",
+    "webpack:watch": "gulp webpack:watch"
   }
 }
