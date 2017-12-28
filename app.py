@@ -4,6 +4,7 @@ import requests
 from flask import Flask
 from flask import json
 from flask import render_template
+from flask import request
 from flask.views import MethodView
 
 
@@ -18,20 +19,19 @@ def home():
 
 
 class RoutesListAPI(MethodView):
-    def get(self, route_id=None):
-        if route_id:
-            response = requests.get(f'{CERYX_API_HOST}/api/routes/{route_id}')
-            response.raise_for_status()
-            route_list = response.json()
-            return json.jsonify(**route_list)
+    endpoint = f'{CERYX_API_HOST}/api/routes'
 
-        response = requests.get(f'{CERYX_API_HOST}/api/routes')
+    def get(self):
+        response = requests.get(self.endpoint)
         response.raise_for_status()
         route_list = response.json()
         return json.jsonify(*route_list)
 
     def post(self):
-        pass
+        response = requests.post(self.endpoint, json=request.json)
+        response.raise_for_status()
+        route = response.json()
+        return json.jsonify(**route)
 
 
 class RoutesDetailAPI(MethodView):
@@ -45,7 +45,9 @@ class RoutesDetailAPI(MethodView):
         pass
 
     def delete(self, route_id):
-        pass
+        response = requests.delete(f'{CERYX_API_HOST}/api/routes/{route_id}')
+        response.raise_for_status()
+        return json.jsonify(), 204
 
 routes_list_view = RoutesListAPI.as_view('routes_list_view')
 routes_detail_view = RoutesDetailAPI.as_view('routes_detail_view')

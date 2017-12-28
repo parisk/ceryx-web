@@ -35,6 +35,26 @@
     .list-group-item:last-child {
       border-bottom: none;
     }
+
+    /**
+     * When a route is in the process of being deleted, we want to display it
+     * as semi-transparent and hide the "delete route" button.
+     */
+    .list-group-item[data-status="deleting"] {
+      opacity: 0.5;
+
+      .delete-route {
+        display: none;
+      }
+    }
+
+    /**
+     * When a route just got deleted, we want to hide it until the state gets
+     * updated.
+     */
+    .list-group-item[data-status="deleted"] {
+      display: none;
+    }
   }
 }
 
