@@ -1,3 +1,15 @@
+import {createStore} from 'elfi';
+
+
+export const routes = createStore([]);
+
+window.routes = routes;
+
+function setRoutes(state, newRoutes) {
+  return newRoutes;
+}
+
+
 function _ceryx(method, url, data={}) {
   let options = {
     method: method,
@@ -14,7 +26,7 @@ function _ceryx(method, url, data={}) {
   return fetch(url, options);
 }
 
-export let ceryx = {
+export let api = {
   get: function(url) {
     return _ceryx('GET', url);
   },
@@ -26,5 +38,39 @@ export let ceryx = {
   },
   delete: function(url) {
     return _ceryx('DELETE', url);
+  }
+};
+
+export let ceryx = {
+  fetchRoutes: function() {
+    let promise = api.get('/api/routes/');
+
+    promise.then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          routes.dispatch(setRoutes, data);
+        });
+      }
+    });
+
+    return promise;
+  },
+  create: function (route) {
+    let promise = api.post('/api/routes/', route);
+
+    promise.then((response) => {
+      ceryx.fetchRoutes();
+    });
+
+    return promise;
+  },
+  delete: function(source) {
+    let promise = api.delete(`/api/routes/${source}/`);
+
+    promise.then((response) => {
+      ceryx.fetchRoutes();
+    });
+
+    return promise;
   }
 };

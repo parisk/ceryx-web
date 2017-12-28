@@ -1405,6 +1405,10 @@ electron-to-chromium@^1.3.28:
   dependencies:
     electron-releases "^2.1.0"
 
+elfi@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/elfi/-/elfi-1.4.0.tgz#54b1fdccab6da951ef8c6acf96ccdbedb15586c1"
+
 elliptic@^6.0.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.4.0.tgz#cac9af8762c85836187003c8dfe193e5e2eae5df"

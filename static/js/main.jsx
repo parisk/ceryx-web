@@ -5,34 +5,23 @@ import 'bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { ceryx } from './ceryx';
+import { ceryx, routes } from './ceryx';
 import { Alert } from './components/Bootstrap.jsx';
 import { RouteList } from './components/Route.jsx';
 
-
-function fetchRoutes() {
-  return ceryx.get('/api/routes/').then((response) => {
-    if (!response.ok) {
-      alert(`Could not fetch routes (status ${response.status})!`);
-    } else {
-      response.json().then((data) => {
-        let routesContainer = document.querySelector('.route-container');
-
-        ReactDOM.render(<RouteList routes={data} />, routesContainer)
-      });
-    }
-  });
-}
+routes.subscribe((newState, oldState) => {
+  let routesContainer = document.querySelector('.route-container');
+  ReactDOM.render(<RouteList routes={newState} />, routesContainer);
+});
 
 // After the DOM loads
 $(() => {
-  fetchRoutes();
+  ceryx.fetchRoutes();
   $('.modal').on('shown.bs.modal', function() {
     this.querySelector('form').reset();
     $(this).find('button[type="submit"]').removeAttr('disabled');
     $(this).find('input').first().focus();
   });
-
   $('#add-new-route-form').on('submit', function(e) {
     e.preventDefault();
 
@@ -42,7 +31,7 @@ $(() => {
     $(form).find('button[type="submit"]').attr('disabled', 'disabled');
     alertContainer.innerHTML = '';
 
-    ceryx.post('/api/routes/', {
+    ceryx.create({
       source: $('#new-route-source').val(),
       target: $('#new-route-target').val()
     }).then((response) => {
@@ -63,7 +52,6 @@ $(() => {
           ReactDOM.render(alert, alertContainer);
         });
       } else {
-        fetchRoutes();
         $('#add-new-route-modal').modal('hide');
       }
     }).catch((error) => {

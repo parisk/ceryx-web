@@ -45,6 +45,8 @@ export class Route extends React.Component {
 
 export class RouteList extends React.Component {
   render() {
+    console.debug('what');
+    console.debug(this.props.routes);
     return this.props.routes.map((route) => {
       return <Route key={`route-${route.source}`} source={route.source} target={route.target} />
     });
