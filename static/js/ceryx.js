@@ -11,7 +11,14 @@ function setRoutes(state, newRoutes) {
  * Reducer used to update the "alerts" state container by adding a new alert.
  */
 export function addAlert(state, alert) {
-  return state.concat([alert]);
+  let newState = state.concat([alert]);
+
+  // If the alert has a timeout property, remove that alert in "timeout" seconds.
+  if (alert.timeout) {
+    setTimeout(() => alerts.dispatch(removeAlert, alert.id), alert.timeout * 1000);
+  }
+
+  return newState;
 }
 
 /**

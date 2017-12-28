@@ -46,6 +46,7 @@ export class Route extends React.Component {
           ],
           severity: 'secondary',
           dismissible: true,
+          timeout: 20,
           id: alertId
         });
       } else {
