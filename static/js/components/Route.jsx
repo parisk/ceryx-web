@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ceryx } from '../ceryx';
+import { ceryx, alerts, addAlert, removeAlert } from '../ceryx';
 
 
 export class Route extends React.Component {
@@ -11,7 +11,11 @@ export class Route extends React.Component {
     };
   }
 
-  onClick(e) {
+  onRestoreButtonClick(alertId) {
+    alerts.dispatch(removeAlert, alertId);
+  }
+
+  onDeleteButtonClick(e) {
     this.setState({
       status: 'deleting'
     });
@@ -20,6 +24,29 @@ export class Route extends React.Component {
       if (response.ok) {
         this.setState({
           status: 'deleted'
+        });
+
+        let alertId = `alert-route-delete-successful-${this.props.source}`;
+
+        alerts.dispatch(addAlert, {
+          content: [
+            `Route ${this.props.source} → ${this.props.target} deleted successfully. Want to `,
+            <button key={`restore-${this.props.source}`}
+                    className="btn btn-link"
+                    type="button"
+                    data-toggle="modal"
+                    data-target="#add-new-route-modal"
+                    data-route-source={this.props.source}
+                    data-route-target={this.props.target}
+                    onClick={this.onRestoreButtonClick.bind(this, alertId)}
+            >
+              restore it
+            </button>,
+            '?'
+          ],
+          severity: 'secondary',
+          dismissible: true,
+          id: alertId
         });
       } else {
         alert('Could not delete route!');
@@ -43,7 +70,7 @@ export class Route extends React.Component {
         <span className="route-source">{this.props.source}</span>
         <span className="route-target">{this.props.target}</span>
 
-        <button className="delete-route float-right" onClick={this.onClick.bind(this)} disabled={this.state.status != 'ok'}>
+        <button className="delete-route float-right" onClick={this.onDeleteButtonClick.bind(this)} disabled={this.state.status != 'ok'}>
           <i className="far fa-trash-alt"></i>
         </button>
       </li>

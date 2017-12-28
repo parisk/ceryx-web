@@ -1,14 +1,31 @@
-import {createStore} from 'elfi';
+import { createStore } from 'elfi';
 
-
-export const routes = createStore([]);
-
-window.routes = routes;
-
+/**
+ * Reducer used to update the "routes" state container with new routes.
+ */
 function setRoutes(state, newRoutes) {
   return newRoutes;
 }
 
+/**
+ * Reducer used to update the "alerts" state container by adding a new alert.
+ */
+export function addAlert(state, alert) {
+  return state.concat([alert]);
+}
+
+/**
+ * Reducer used to update the "alerts" state container by removing an alert based on its id.
+ */
+export function removeAlert(state, alertId) {
+  return state.filter((alert) => alert.id != alertId);
+}
+
+export const routes = createStore([]);
+export const alerts = createStore([]);
+
+window.alerts = alerts;
+window.addAlert = addAlert;
 
 function _ceryx(method, url, data={}) {
   let options = {

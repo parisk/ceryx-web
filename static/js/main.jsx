@@ -5,14 +5,23 @@ import 'bootstrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { ceryx, routes } from './ceryx';
+import { alerts, ceryx, routes } from './ceryx';
 import { Alert } from './components/Bootstrap.jsx';
 import { RouteList } from './components/Route.jsx';
+import { AlertList } from './components/Alert.jsx';
+
 
 // Render new routes, whenever they are being fetched from the server.
 routes.subscribe((newState, oldState) => {
   let routesContainer = document.querySelector('.route-container');
   ReactDOM.render(<RouteList routes={newState} />, routesContainer);
+});
+
+
+// Render new alerts, whenever they are being added in the store
+alerts.subscribe((newState, oldState) => {
+  let alertsContainer = document.querySelector('.main-alert-container');
+  ReactDOM.render(<AlertList alerts={newState} />, alertsContainer);
 });
 
 // Initialize the application right after the DOM loads.
@@ -33,6 +42,10 @@ $(() => {
     $(this).find('input').first().focus();
   });
 
+  $('#add-new-route-modal').on('shown.bs.modal', function(e) {
+    $('#new-route-source').val(e.relatedTarget.dataset.routeSource);
+    $('#new-route-target').val(e.relatedTarget.dataset.routeTarget);
+  });
 
   $('#add-new-route-form').on('submit', function(e) {
     e.preventDefault();

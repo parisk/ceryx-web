@@ -1,5 +1,22 @@
 @import '../../node_modules/bootstrap/scss/bootstrap';
 
+.main-alert-container {
+  .alert:first-child {
+    margin-top: 32px;
+  }
+
+  .alert:last-child {
+    margin-bottom: 32px;
+  }
+
+  .alert .btn-link {
+    border: none;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+  }
+}
+
 .route-list-group {
   .route-container {
     .list-group-item {
@@ -39,9 +56,9 @@
     }
 
     /**
-     * When a route is in the process of being created or deleted, we want to display it
-     * as semi-transparent and disable the "delete route" button.
-     */
+    * When a route is in the process of being created or deleted, we want to display it
+    * as semi-transparent and disable the "delete route" button.
+    */
     .list-group-item[data-status="creating"],
     .list-group-item[data-status="deleting"]{
       opacity: 0.5;
@@ -56,9 +73,9 @@
     }
 
     /**
-     * When a route just got deleted, we want to hide it until the state gets
-     * updated.
-     */
+    * When a route just got deleted, we want to hide it until the state gets
+    * updated.
+    */
     .list-group-item[data-status="deleted"] {
       display: none;
     }
