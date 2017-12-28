@@ -39,14 +39,19 @@
     }
 
     /**
-     * When a route is in the process of being deleted, we want to display it
-     * as semi-transparent and hide the "delete route" button.
+     * When a route is in the process of being created or deleted, we want to display it
+     * as semi-transparent and disable the "delete route" button.
      */
-    .list-group-item[data-status="deleting"] {
+    .list-group-item[data-status="creating"],
+    .list-group-item[data-status="deleting"]{
       opacity: 0.5;
 
       .delete-route {
-        display: none;
+        cursor: default;
+      }
+
+      .delete-route:hover {
+        border: 1px solid transparent;
       }
     }
 

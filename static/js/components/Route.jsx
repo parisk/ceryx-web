@@ -6,7 +6,7 @@ import { ceryx } from '../ceryx';
 export class Route extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = props.state || {
       status: 'ok'
     };
   }
@@ -16,9 +16,7 @@ export class Route extends React.Component {
       status: 'deleting'
     });
 
-    ceryx.delete(
-      `/api/routes/${this.props.source}/`
-    ).then((response) => {
+    ceryx.delete(this.props.source).then((response) => {
       if (response.ok) {
         this.setState({
           status: 'deleted'
@@ -29,13 +27,23 @@ export class Route extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    let nextState = nextProps.state || {
+      status: 'ok'
+    };
+
+    if (this.state != nextState) {
+      this.setState(nextState);
+    }
+  }
+
   render() {
     return (
       <li className="list-group-item" data-status={this.state.status}>
         <span className="route-source">{this.props.source}</span>
         <span className="route-target">{this.props.target}</span>
 
-        <button className="delete-route float-right" onClick={this.onClick.bind(this)}>
+        <button className="delete-route float-right" onClick={this.onClick.bind(this)} disabled={this.state.status != 'ok'}>
           <i className="far fa-trash-alt"></i>
         </button>
       </li>
@@ -45,10 +53,12 @@ export class Route extends React.Component {
 
 export class RouteList extends React.Component {
   render() {
-    console.debug('what');
-    console.debug(this.props.routes);
-    return this.props.routes.map((route) => {
-      return <Route key={`route-${route.source}`} source={route.source} target={route.target} />
+    let routes = this.props.routes.slice(0).sort((a, b) => {
+      return (a.source > b.source) ? 1 : -1
+    });
+
+    return routes.map((route) => {
+      return <Route key={`route-${route.source}`} source={route.source} target={route.target} state={route.state} />
     });
   }
 }

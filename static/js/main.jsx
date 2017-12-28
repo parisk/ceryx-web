@@ -9,31 +9,45 @@ import { ceryx, routes } from './ceryx';
 import { Alert } from './components/Bootstrap.jsx';
 import { RouteList } from './components/Route.jsx';
 
+// Render new routes, whenever they are being fetched from the server.
 routes.subscribe((newState, oldState) => {
   let routesContainer = document.querySelector('.route-container');
   ReactDOM.render(<RouteList routes={newState} />, routesContainer);
 });
 
-// After the DOM loads
+// Initialize the application right after the DOM loads.
 $(() => {
+  // First, fetch the routes from the server, in order to display them
   ceryx.fetchRoutes();
+
+  // Next, whenever a Bootstrap modal loads, then
+  //   1. Reset its form (if any)
+  //   2. Enabled any disabled buttons
+  //   3. Focus the first input element available
   $('.modal').on('shown.bs.modal', function() {
-    this.querySelector('form').reset();
+    let form = this.querySelector('form');
+    if (form) {
+      this.querySelector('form').reset();
+    }
     $(this).find('button[type="submit"]').removeAttr('disabled');
     $(this).find('input').first().focus();
   });
+
+
   $('#add-new-route-form').on('submit', function(e) {
     e.preventDefault();
 
     const form = this;
     const alertContainer = form.querySelector('.alert-container');
+    const source = $('#new-route-source').val();
+    const target = $('#new-route-target').val();
 
     $(form).find('button[type="submit"]').attr('disabled', 'disabled');
     alertContainer.innerHTML = '';
 
     ceryx.create({
-      source: $('#new-route-source').val(),
-      target: $('#new-route-target').val()
+      source: source,
+      target: target
     }).then((response) => {
       $(form).find('button[type="submit"]').removeAttr('disabled');
 
@@ -52,6 +66,15 @@ $(() => {
           ReactDOM.render(alert, alertContainer);
         });
       } else {
+        let tempRoutes = routes.getState().concat([{
+          source: source,
+          target: target,
+          state: {
+            status: 'creating'
+          }
+        }]);
+        let routesContainer = document.querySelector('.route-container');
+        ReactDOM.render(<RouteList routes={tempRoutes} />, routesContainer);
         $('#add-new-route-modal').modal('hide');
       }
     }).catch((error) => {
