@@ -6,3 +6,8 @@
 
 flask = "*"
 requests = "*"
+
+
+[dev-packages]
+
+pycodestyle = "*"
