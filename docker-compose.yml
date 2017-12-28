@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    environment:
+      CERYX_API_HOST: ${CERYX_API_HOST}
