@@ -14,4 +14,4 @@ COPY . /usr/src/app
 RUN pipenv install --system
 COPY --from=static /usr/src/app/static/dist /usr/src/app/static/dist
 
-CMD ["flask", "run", "--port=5000"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
