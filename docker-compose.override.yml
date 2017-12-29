@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    ports:
+      - ${CERYX_WEB_EXTERNAL_PORT:-7777}:5000

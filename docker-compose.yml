@@ -2,9 +2,6 @@ version: "3"
 
 services:
   web:
-    image: sourcelair/ceryx-web:latest
-    build: .
+    image: paris/ceryx-web:latest
     environment:
       CERYX_API_HOST: ${CERYX_API_HOST}
-    ports:
-      - ${CERYX_WEB_EXTERNAL_PORT:-7777}:5000
