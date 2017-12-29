@@ -5,3 +5,11 @@ services:
     image: paris/ceryx-web:latest
     environment:
       CERYX_API_HOST: ${CERYX_API_HOST}
+    networks:
+      default:
+      ceryx:
+        aliases:
+          - ceryx.${CERYX_WEB_NAME:-name}
+networks:
+  ceryx:
+    external: true
