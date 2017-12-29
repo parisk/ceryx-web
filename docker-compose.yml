@@ -9,7 +9,7 @@ services:
       default:
       ceryx:
         aliases:
-          - ceryx.${CERYX_WEB_NAME:-name}
+          - ceryx.${CERYX_WEB_NAME:-web}
 networks:
   ceryx:
     external: true
