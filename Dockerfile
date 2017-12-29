@@ -11,7 +11,7 @@ WORKDIR /usr/src/app
 RUN pip install pipenv==9.0.1
 
 COPY . /usr/src/app
-RUN pipenv install
+RUN pipenv install --system
 COPY --from=static /usr/src/app/static/dist /usr/src/app/static/dist
 
 CMD ["flask", "run", "--port=5000"]
