@@ -31,7 +31,7 @@ class RoutesListAPI(MethodView):
         response = requests.get(self.endpoint)
         response.raise_for_status()
         route_list = response.json()
-        return json.jsonify(*route_list)
+        return json.jsonify(route_list)
 
     def post(self):
         """

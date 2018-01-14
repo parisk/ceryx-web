@@ -5,3 +5,13 @@ services:
     build: .
     ports:
       - ${CERYX_WEB_EXTERNAL_PORT:-7777}:5000
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      - FLASK_DEBUG=1
+  builder:
+    image: node:8
+    command: bash -c 'yarn && yarn run webpack:watch'
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
