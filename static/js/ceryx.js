@@ -74,7 +74,25 @@ export let ceryx = {
         response.json().then((data) => {
           routes.dispatch(setRoutes, data);
         });
+      } else {
+        alerts.dispatch(addAlert, {
+          id: 'routes-fetch-not-ok',
+          severity: 'danger',
+          dismissible: true,
+          timeout: 10,
+          content: `We could not fetch Ceryx' routes. Response status code: ${response.status}.`
+        });
       }
+    }).catch((error) => {
+      console.error('Promise error while fetching routes');
+      console.error(error);
+      alerts.dispatch(addAlert, {
+        id: 'routes-fetch-promise-error',
+        severity: 'danger',
+        dismissible: true,
+        timeout: 10,
+        content: `We could not fetch Ceryx' routes. View browser's console for more details.`
+      });
     });
 
     return promise;
