@@ -6,11 +6,28 @@ from flask import json
 from flask import render_template
 from flask import request
 from flask.views import MethodView
+from werkzeug.wsgi import ProxyMiddleware
 
 
 CERYX_API_HOST = os.getenv('CERYX_API_HOST')
 
 app = Flask(__name__)
+
+if os.getenv('FLASK_ENV') == 'development':
+    webpack_dev_server_address = os.getenv(
+        'WEBPACK_DEV_SERVER_ADDRESS', 'http://localhost:5001/',
+    )
+    app.wsgi_app = ProxyMiddleware(app.wsgi_app, {
+        '/static/': {
+            'target': webpack_dev_server_address,
+        },
+        '/sockjs-node/': {
+            'target': webpack_dev_server_address,
+        },
+        '/__webpack_dev_server__/': {
+            'target': webpack_dev_server_address,
+        },
+    })
 
 
 @app.route('/')

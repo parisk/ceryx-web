@@ -105,3 +105,13 @@ $(() => {
     });
   });
 });
+
+window.lehot = module.hot;
+
+if (module.hot) {
+  console.debug('Hot modules werk.')
+
+  module.hot.accept('./main.jsx', function() {
+    console.debug('./static/js/main.jsx changed. DO SOMETHING!');
+  })
+}

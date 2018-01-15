@@ -25,7 +25,7 @@ gulp.task('webpack', () => {
 gulp.task('webpack:watch', ['webpack'], () => {
   gulp.watch(
     ['./static/js/**/**.js*', './static/stylesheets/*'],
-    ['sass', 'webpack'],
+    ['sass', 'webpack']
   );
 });
 

@@ -6,6 +6,7 @@
 
 flask = "*"
 requests = "*"
+werkzeug = "==0.14.1"
 
 
 [dev-packages]
